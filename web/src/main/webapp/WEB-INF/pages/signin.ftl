@@ -12,7 +12,8 @@
             generateDeviceCode: '${packageURI}/generateDeviceCode.html',
             signIn: '${packageURI}/signIn.html',
             fetchPage: '${packageURI}/fetchPage.html',
-            retrieveFetchStatus: '${packageURI}/retrieveFetchStatus.html'
+            retrieveFetchStatus: '${packageURI}/retrieveFetchStatus.html',
+            indexingPage: '${packageURI}/indexingPage.html'
         });
     </script>
     <script type="text/javascript">
@@ -107,6 +108,29 @@
                         onFailure : (function(tra){
                             alert('Fail, ' + tra);
                         })
+                    });
+                });
+
+                $$('.indexing').each(function(ele){
+
+                    ele.on('click', function(){
+                        var pageId = ele.getAttribute('data-pageid');
+
+                        new Ajax.Request(APP.actions.indexingPage, {
+                            method : 'POST',
+                            asynchronous : true,
+                            encoding : 'UTF-8',
+                            evalJSON : true,
+                            parameters : {'param.pageId' : pageId },
+                            onSuccess : (function(transport) {
+                                APP.response.handlers.success(transport, function(json){
+                                    alert('Indexing done');
+                                });
+                            }),
+                            onFailure : (function(tra){
+                                alert('Fail, ' + tra);
+                            })
+                        });
                     });
                 });
             });
