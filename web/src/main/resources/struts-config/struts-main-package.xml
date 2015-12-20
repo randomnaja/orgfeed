@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+  <package name="mainPackage" extends="public" namespace="/pub/main">
+    <action name="index" class="randomnaja.orgfeed.action.MainAction" method="index">
+      <interceptor-ref name="publicStack" />
+      <result name="success" type="freemarker">/WEB-INF/pages/main.ftl</result>
+    </action>
+    <action name="renderPageId" class="randomnaja.orgfeed.action.MainAction" method="renderPageId">
+      <interceptor-ref name="publicStack" />
+      <result name="success" type="freemarker">/WEB-INF/pages/renderpageid.ftl</result>
+    </action>
+    <action name="*" class="randomnaja.orgfeed.action.MainAction" method="{1}">
+      <interceptor-ref name="publicStack" />
+      <result type="json">
+        <param name="root">result</param>
+        <param name="wrapWithComments">false</param>
+        <param name="noCache">true</param>
+        <param name="enableGZIP">true</param>
+        <param name="defaultEncoding">UTF-8</param>
+        <param name="ignoreHierarchy">false</param>
+        <param name="includeProperties">.*</param>
+        <param name="excludeProperties"></param>
+      </result>
+      <result name="search" type="freemarker">/WEB-INF/pages/renderpageid.ftl</result>
+    </action>
+  </package>
+
+  <package name="adminSignIn" extends="public" namespace="/admin/signin">
+    <action name="index" class="randomnaja.orgfeed.action.AdminManageAction" method="index">
+      <interceptor-ref name="publicStack" />
+      <result name="success" type="freemarker">/WEB-INF/pages/signin.ftl</result>
+    </action>
+    <action name="*" class="randomnaja.orgfeed.action.AdminManageAction" method="{1}">
+      <interceptor-ref name="publicStack" />
+      <result type="json">
+        <param name="root">result</param>
+        <param name="wrapWithComments">false</param>
+        <param name="noCache">true</param>
+        <param name="enableGZIP">true</param>
+        <param name="defaultEncoding">UTF-8</param>
+        <param name="ignoreHierarchy">false</param>
+        <param name="includeProperties">.*</param>
+        <param name="excludeProperties"></param>
+      </result>
+    </action>
+  </package>
+
+</struts>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.2">
+    <ear-subdeployments-isolated>false</ear-subdeployments-isolated>
+    <!--<sub-deployment name="orgfeed-ejbweb.war">
+        <dependencies>
+            <module name="randomnaja.orgfeed">
+                <imports>
+                    <include path="META-INF"/>
+                    <include path="META-INF/**"/>
+                </imports>
+            </module>
+        </dependencies>
+    </sub-deployment>-->
+    <sub-deployment name="orgfeed-web.war">
+        <dependencies>
+            <module name="randomnaja.orgfeed">
+                <imports>
+                    <include path="META-INF"/>
+                    <include path="META-INF/**"/>
+                </imports>
+            </module>
+        </dependencies>
+    </sub-deployment>
+</jboss-deployment-structure>

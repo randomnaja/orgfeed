@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="3.0"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+  <display-name>orgfeed</display-name>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath*:spring-*.xml
+      classpath:/META-INF/spring-remoteaction.xml
+      classpath:/META-INF/spring-pantheonjobexec.xml
+      classpath:/META-INF/spring-pantheonjmx.xml
+    </param-value>
+  </context-param>
+
+  <filter>
+    <filter-name>struts-prepare</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>struts-execute</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>sitemesh</filter-name>
+    <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+  </filter>
+
+  <filter>
+    <filter-name>fetchExternalResource</filter-name>
+    <filter-class>thaisamut.pantheon.servlet.filter.ExternalResourceFetchFilter</filter-class>
+    <init-param>
+      <param-name>filteredResource</param-name>
+      <param-value>/css/.*,/images/.*,/scripts/.*</param-value>
+    </init-param>
+  </filter>
+
+
+  <filter-mapping>
+    <filter-name>fetchExternalResource</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>struts-prepare</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>sitemesh</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>struts-execute</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- Listeners -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.apache.struts2.dispatcher.ng.listener.StrutsListener</listener-class>
+  </listener>
+
+  <!-- Servlet declarations -->
+
+  <servlet>
+    <servlet-name>jspSupportServlet</servlet-name>
+    <servlet-class>org.apache.struts2.views.JspSupportServlet</servlet-class>
+    <load-on-startup>5</load-on-startup>
+  </servlet>
+
+  <!-- Remote Action -->
+  <servlet>
+    <display-name>remoteStaticResourceHandler</display-name>
+    <servlet-name>remoteStaticResourceHandler</servlet-name>
+    <servlet-class>
+      org.springframework.web.context.support.HttpRequestHandlerServlet
+    </servlet-class>
+  </servlet>
+
+  <servlet>
+    <display-name>fileuploadresourceHandler</display-name>
+    <servlet-name>fileuploadresourceHandler</servlet-name>
+    <servlet-class>
+      org.springframework.web.context.support.HttpRequestHandlerServlet
+    </servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>remoteStaticResourceHandler</servlet-name>
+    <url-pattern>/remotestaticresource/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>fileuploadresourceHandler</servlet-name>
+    <url-pattern>/fileuploadresource</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>remoting</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>remoting</servlet-name>
+    <url-pattern>/remote/*</url-pattern>
+  </servlet-mapping>
+  <!-- END Remote Action -->
+
+  <servlet>
+    <servlet-name>AdminPing</servlet-name>
+    <servlet-class>thaisamut.adminping.servlet.AdminPingServlet</servlet-class>
+    <init-param>
+      <param-name>thaisamut.adminping.servlet.pingImplClass</param-name>
+      <param-value>thaisamut.adminping.servlet.DefaultPingImpl</param-value>
+    </init-param>
+    <load-on-startup>99</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>AdminPing</servlet-name>
+    <url-pattern>/apiadmin/ping</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>sitemesh-freemarker</servlet-name>
+    <servlet-class>org.apache.struts2.sitemesh.FreemarkerDecoratorServlet</servlet-class>
+    <init-param>
+      <param-name>default_encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>sitemesh-freemarker</servlet-name>
+    <url-pattern>*.ftl</url-pattern>
+  </servlet-mapping>
+
+  <!-- Welcome files -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+
+</web-app>

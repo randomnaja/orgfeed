@@ -1,0 +1,8 @@
+target
+.idea
+*.iml
+wildfly-run
+.classpath
+.project
+overlays
+.settings

@@ -1,0 +1,52 @@
+How to setup Database
+=====================
+
+follow following commands
+
+    sudo -u postgres psql -c "CREATE DATABASE orgfeed template=template0 encoding='unicode' lc_collate='th_TH.UTF8' lc_ctype='th_TH.UTF8'"
+    sudo -u postgres psql -c "CREATE USER orgfeed WITH PASSWORD 'nopass';" orgfeed
+    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE orgfeed to orgfeed;" orgfeed
+
+
+Compile project and start wildfly
+=================================
+
+    [~/svn/code/orgfeed]:$ mvn -Pdev clean install
+    [~/svn/code/orgfeed]:$ (cd ear && mvn wildfly:run)
+
+
+Compile project and deploy ear to running wildfly
+=================================================
+
+    [~/svn/code/orgfeed]:$ mvn -Pdev clean install && (cd ear && mvn wildfly:deploy)
+
+
+Minimize compilation and re-deploy to wildfly
+=============================================
+
+    [~/svn/code/orgfeed]:$ (cd web && mvn -Pdev clean install) && (cd ear && mvn clean install wildfly:deploy)
+
+
+Build assembly
+==============
+
+    [~/svn/code/orgfeed]:$ (cd assembly && mvn clean assembly:assembly)
+
+
+Adding svnignore
+================
+
+Run following command (only the first time project is created and when .svnignore file has been changed)
+
+    svn propset svn:ignore -R -F .svnignore .
+
+
+Application Port
+================
+
++-----------+----------+-----------------+------------+-----------+
+| HTTP Port | AJP Port | Management Port | HTTPS Port | JDWP Port |
++-----------+----------+-----------------+------------+-----------+
+|       9000|      9100|             9200|        9300|       9400|
++-----------+----------+-----------------+------------+-----------+
+

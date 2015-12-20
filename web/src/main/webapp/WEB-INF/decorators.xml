@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<decorators defaultdir="/WEB-INF/decorators">
+
+  <excludes>
+    <pattern>/css/*</pattern>
+    <pattern>/scripts/*</pattern>
+    <pattern>/images/*</pattern>
+  </excludes>
+
+  <decorator name="secure" page="secure-decorator.ftl">
+      <pattern>/WEB-INF/pages/home.jsp</pattern>
+      <pattern>/WEB-INF/pages/forbidden.jsp</pattern>
+      <pattern>/WEB-INF/pages/access-denied.jsp</pattern>
+      <pattern>/WEB-INF/pages/orgfeed/*</pattern>
+      <pattern>/secure/home.html</pattern>
+      <pattern>/secure/main/*</pattern>
+  </decorator>
+
+  <decorator name="public" page="plain-decorator.ftl">
+      <pattern>/pub/main/*</pattern>
+      <pattern>/admin/*</pattern>
+  </decorator>
+
+</decorators>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+  "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+  "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="${struts.devMode}" />
+	<constant name="struts.custom.i18n.resources" value="global" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+	<constant name="struts.action.extension" value="html" />
+	<constant name="struts.multipart.maxSize" value="104857600" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+  <constant name="struts.freemarker.manager.classname"
+      value="thaisamut.pantheon.servlet.struts2.ExternalLoaderFreemarkerManager" />
+
+	<package name="base" extends="json-default">
+		<!--<global-results>
+			<result name="access-denied">/WEB-INF/pages/access-denied.jsp</result>
+			<result name="forbidden">/WEB-INF/pages/forbidden.jsp</result>
+			<result name="none" type="redirectAction">
+				<param name="namespace">/secure</param>
+				<param name="actionName">home</param>
+			</result>
+		</global-results>-->
+	</package>
+
+	<package name="public" extends="base" namespace="/pub">
+
+		<interceptors>
+			<interceptor name="requestParamsInfo" class="thaisamut.commons.struts2.interceptor.RequestParamsInfoInterceptor" />
+			<interceptor name="auditTrail" class="thaisamut.commons.struts2.interceptor.AuditTrailInterceptor" />
+			<interceptor name="timerMetricsInterceptor" class="thaisamut.commons.struts2.interceptor.TimerMetricsInterceptor" />
+			<interceptor name="strutsConfigInterceptor" class="randomnaja.orgfeed.interceptor.StrutsConfigInterceptor" />
+			<interceptor-stack name="publicStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="requestParamsInfo" />
+				<interceptor-ref name="auditTrail" />
+				<interceptor-ref name="strutsConfigInterceptor" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="publicStack" />
+
+		<global-results>
+			<result name="error" type="freemarker">/WEB-INF/pages/error.ftl</result>
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception" result="error"/>
+		</global-exception-mappings>
+
+	</package>
+
+	<include file="struts-config/struts-main-package.xml" />
+
+</struts>
