@@ -42,42 +42,43 @@ class PostServiceImpl implements PostService {
     @Override
     public List<PostEntity> findByPageId(String pageId) {
         TypedQuery<PostEntity> q =
-            em.createQuery("select a from POST a where a.facebookPageId = :pageId", PostEntity.class);
+            em.createQuery("SELECT a FROM POST a WHERE a.facebookPageId = :pageId ORDER BY a.createdTime DESC", PostEntity.class);
 
         q.setParameter("pageId", pageId);
 
         //TODO just limit result
-        //q.setMaxResults(2);
+//        q.setMaxResults(10);
 
         return q.getResultList();
     }
 
     @Override
     public List<AttachmentEntity> findByPostId(Long postId) {
-        return em.createQuery("select a from ATTACHMENT a where a.postId = :postId", AttachmentEntity.class)
+        return em.createQuery("SELECT a FROM ATTACHMENT a WHERE a.postId = :postId", AttachmentEntity.class)
             .setParameter("postId", postId)
             .getResultList();
     }
 
     @Override
     public List<PageEntity> getAllPages() {
-        return em.createQuery("select a from PAGE a", PageEntity.class)
+        return em.createQuery("SELECT a FROM PAGE a", PageEntity.class)
                 .getResultList();
     }
 
     @Override
     public void deletePageId(String pageId) {
-        int eff = em.createQuery("delete a FROM PAGE a where a.facebookId = :pageId")
+        int eff = em.createQuery("DELETE FROM PAGE a WHERE a.facebookId = :pageId")
                 .setParameter("pageId", pageId)
                 .executeUpdate();
         log.info("PAGE has been deleted, {} rows", eff);
 
-        eff = em.createQuery("delete a FROM ATTACHMENT a inner join POST b on b.id = a.postId WHERE b.pageId = :pageId")
+//        eff = em.createQuery("DELETE FROM ATTACHMENT a INNER JOIN POST b ON b.id = a.postId WHERE b.pageId = :pageId")
+        eff = em.createQuery("DELETE FROM ATTACHMENT a WHERE a.postId in (SELECT b.id FROM POST b WHERE b.id = a.postId AND b.facebookPageId = :pageId)")
                 .setParameter("pageId", pageId)
                 .executeUpdate();
         log.info("ATTACHMENT has been deleted, {} rows", eff);
 
-        eff = em.createQuery("delete a FROM POST a where a.facebookId = :pageId")
+        eff = em.createQuery("DELETE FROM POST a WHERE a.facebookPageId = :pageId")
                 .setParameter("pageId", pageId)
                 .executeUpdate();
         log.info("POST has been deleted, {} rows", eff);

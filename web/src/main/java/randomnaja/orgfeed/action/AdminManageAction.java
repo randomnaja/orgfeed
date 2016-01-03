@@ -203,6 +203,8 @@ public class AdminManageAction extends JsonAction {
 
                 List<PostEntity> l = postService.findByPageId(param.pageId);
                 luceneComponent.indexing(l);
+
+                result.setMessage("Indexing done for " + l.size() + " posts");
             }
         }.run();
     }

@@ -116,6 +116,8 @@ public class MainAction extends JsonAction {
     public String renderPageId() {
         pageVal.posts = postService.findByPageId(param.getPageId());
 
+        pageVal.posts = pageVal.posts.subList(0, pageVal.posts.size() > 10 ? 10 : pageVal.posts.size());
+
         return SUCCESS;
     }
 

@@ -22,21 +22,18 @@
 </head>
 
 <body>
-<div class="layout-module-col">
-    <div class="criteria layout-module">
-        <div class="layout-m-hd"></div>
-        <div class="layout-m-bd" style="overflow: scroll">
-            All of my pages
-            <#list pageVal.pages as page>
-                <a href="renderPageId.html?param.pageId=${page.facebookId?html}">
-                    ${page.name!?html}
-                </a>
-            <#else>
-                No page
-            </#list>
+
+<div id="all-pages-container">
+    <label>All of pages</label>
+    <#list pageVal.pages as page>
+        <div class="each-page-container">
+            <a href="renderPageId.html?param.pageId=${page.facebookId?html}">
+                ${page.name!?html}
+            </a>
         </div>
-        <div class="layout-m-ft"></div>
-    </div>
+    <#else>
+        No page
+    </#list>
 </div>
 
 </body>
